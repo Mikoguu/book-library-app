@@ -1,14 +1,24 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import "./BookForm.css";
+import { addBook } from "../../redux/books/actionCreators";
 
 function BookForm() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (title && author) {
+      const book = {
+        title,
+        author,
+      };
+
+      dispatch(addBook(book));
+
       setTitle("");
       setAuthor("");
     }
@@ -22,9 +32,9 @@ function BookForm() {
           <input
             type="text"
             id="title"
-            value={author}
+            value={title}
             onChange={(e) => {
-              setAuthor(e.target.value);
+              setTitle(e.target.value);
             }}
           ></input>
         </div>
@@ -33,8 +43,8 @@ function BookForm() {
           <input
             type="text"
             id="author"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
           ></input>
         </div>
         <button type="submit">Submit</button>
