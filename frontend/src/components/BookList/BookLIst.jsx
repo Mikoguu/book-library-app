@@ -8,8 +8,8 @@ function BookList() {
       <h2>Book List</h2>
       {!!books ? (
         <ul>
-          {books.map((book, i) => {
-            return <li key={i}>{`${book.title} by ${book.author}`}</li>;
+          {books.map((book) => {
+            return <li key={book.id}>{`${book.title} by ${book.author}`}</li>;
           })}
         </ul>
       ) : (
