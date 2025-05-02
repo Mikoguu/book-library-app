@@ -5,6 +5,7 @@ import { deleteBook, toggleFavourite } from "../../redux/books/actionCreators";
 import {
   selectTitleFilter,
   selectAuthorFilter,
+  selectOnlyFavoriteFilter,
 } from "../../redux/slices/filterSlice";
 
 function BookList() {
@@ -13,6 +14,7 @@ function BookList() {
   const books = useSelector((state) => state.books);
   const titleFilter = useSelector(selectTitleFilter);
   const authorFilter = useSelector(selectAuthorFilter);
+  const onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter);
 
   const handleBookDelete = (bookId) => {
     dispatch(deleteBook(bookId));
@@ -25,7 +27,10 @@ function BookList() {
   const filteredBooks = books.filter((book) => {
     const matchesFilters =
       book.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
-      book.author.toLowerCase().includes(authorFilter.toLowerCase());
+      book.author.toLowerCase().includes(authorFilter.toLowerCase()) &&
+      onlyFavoriteFilter
+        ? book.isFavourite
+        : true;
 
     return matchesFilters;
   });
