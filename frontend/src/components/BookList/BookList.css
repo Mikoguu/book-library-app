@@ -23,6 +23,10 @@
   background-color: #dbe4f8;
 }
 
+.book-list .highlight {
+  background-color: #ff0;
+}
+
 .book-list button {
   background-color: #fff;
   color: red;
