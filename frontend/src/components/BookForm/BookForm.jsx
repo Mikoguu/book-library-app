@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import "./BookForm.css";
 import booksData from "../../data/books.json";
 import createBook from "../../utils/createBook";
-import { addBook } from "../../redux/books/actionCreators";
+import { addBook } from "../../redux/slices/booksSlice";
+import { resetFilters } from "../../redux/slices/filterSlice";
 
 function BookForm() {
   const [title, setTitle] = useState("");
@@ -28,6 +29,7 @@ function BookForm() {
     const randomBook = createBook(booksData[randomIndex]);
 
     dispatch(addBook(randomBook));
+    dispatch(resetFilters());
   };
   return (
     <div className="app-block book-form">

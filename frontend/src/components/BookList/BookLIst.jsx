@@ -1,7 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { BsBookmarkStarFill, BsBookmarkStar } from "react-icons/bs";
 import "./BookList.css";
-import { deleteBook, toggleFavourite } from "../../redux/books/actionCreators";
+import {
+  deleteBook,
+  toggleFavourite,
+  selectBooks,
+} from "../../redux/slices/booksSlice";
 import {
   selectTitleFilter,
   selectAuthorFilter,
@@ -11,7 +15,7 @@ import {
 function BookList() {
   const dispatch = useDispatch();
 
-  const books = useSelector((state) => state.books);
+  const books = useSelector(selectBooks);
   const titleFilter = useSelector(selectTitleFilter);
   const authorFilter = useSelector(selectAuthorFilter);
   const onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter);
@@ -25,14 +29,14 @@ function BookList() {
   };
 
   const filteredBooks = books.filter((book) => {
-    const matchesFilters =
-      book.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
-      book.author.toLowerCase().includes(authorFilter.toLowerCase()) &&
-      onlyFavoriteFilter
-        ? book.isFavourite
-        : true;
-
-    return matchesFilters;
+    const matchesTitle = book.title
+      .toLowerCase()
+      .includes(titleFilter.toLowerCase());
+    const matchesAuthor = book.author
+      .toLowerCase()
+      .includes(authorFilter.toLowerCase());
+    const matchesOnlyFavorite = onlyFavoriteFilter ? book.isFavourite : true;
+    return matchesTitle && matchesAuthor && matchesOnlyFavorite;
   });
 
   const highlightMatch = (text, filter) => {
@@ -40,7 +44,6 @@ function BookList() {
 
     const regex = new RegExp(`(${filter})`, "gi");
     return text.split(regex).map((substring, i) => {
-      console.log({ substring, filter });
       if (substring.toLowerCase() === filter.toLowerCase()) {
         return (
           <span key={i} className="highlight">
@@ -65,7 +68,11 @@ function BookList() {
                   {highlightMatch(book.author, authorFilter)}
                 </div>
                 <div className="book-actions">
-                  <span onClick={() => handleToggleFavourite(book.id)}>
+                  <span
+                    onClick={() => {
+                      handleToggleFavourite(book.id);
+                    }}
+                  >
                     {book.isFavourite ? (
                       <BsBookmarkStarFill className="star-icon" />
                     ) : (
