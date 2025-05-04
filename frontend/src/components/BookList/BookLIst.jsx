@@ -65,7 +65,8 @@ function BookList() {
               <li key={book.id}>
                 <div className="book-info">
                   {highlightMatch(book.title, titleFilter)} by{" "}
-                  {highlightMatch(book.author, authorFilter)}
+                  {highlightMatch(book.author, authorFilter)}{" "}
+                  {`(${book.source})`}
                 </div>
                 <div className="book-actions">
                   <span
