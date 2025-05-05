@@ -47,6 +47,13 @@ const booksSlice = createSlice({
       }
     });
   },
+  // extraReducer: {
+  // [fetchBook.fulfilled]: (action, state) => {
+  //    if (action.payload.title && action.payload.author) {
+  //     state.push(createBook(action.payload, "API"));
+  //   }
+  //  },
+  // },
 });
 export const { addBook, deleteBook, toggleFavourite } = booksSlice.actions;
 export const selectBooks = (state) => state.books;
