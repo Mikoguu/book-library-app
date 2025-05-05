@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import "./BookForm.css";
 import booksData from "../../data/books.json";
 import createBook from "../../utils/createBook";
-import { addBook, thunkFunction } from "../../redux/slices/booksSlice";
+import { addBook, fetchBook } from "../../redux/slices/booksSlice";
 import { resetFilters } from "../../redux/slices/filterSlice";
+import { setError } from "../../redux/slices/errorSlice";
 
 function BookForm() {
   const [title, setTitle] = useState("");
@@ -21,6 +22,8 @@ function BookForm() {
 
       setTitle("");
       setAuthor("");
+    } else {
+      dispatch(setError("Author and Title fields are required"));
     }
   };
 
@@ -33,7 +36,7 @@ function BookForm() {
   };
 
   const handleAddRandomBookViaApi = async () => {
-    dispatch(thunkFunction);
+    dispatch(fetchBook());
   };
   return (
     <div className="app-block book-form">
